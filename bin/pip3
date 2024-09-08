@@ -1,4 +1,4 @@
-#!/home/MaciejWozniakowski/programowanko/pythonProjects/tutorial-env/bin/python
+#!/home/MaciejWozniakowski/programowanko/pythonProjects/RPIDatalogger/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
