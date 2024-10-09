@@ -1,15 +1,19 @@
-from pymodbus.client.sync import ModbusTcpClient
-
+import asyncio
+import pymodbus.client as ModbusClient
+from pymodbus.exceptions import ModbusException
 # Connect to the server
-client = ModbusTcpClient('192.168.1.100', port=5020)  # Replace with your server IP
-client.connect()
+client = ModbusClient.AsyncModbusTcpClient('192.168.1.121', port=5020)  
+async def run_async_TCP_client():
+    
+    await client.connect()
+    await client.write_coil(1, True, slave=1)
+    try: 
+        rr = await client.write_coil(1, True, slave = 1)
+    except ModbusException as exc:
+        client.close()
+        return
 
-# Read Holding Registers (example)
-result = client.read_holding_registers(0, 10, unit=1) 
-print(result.registers)
 
-# Write to a Holding Register (example)
-client.write_register(1, 25, unit=1)  
 
-# Close the connection
-client.close() 
+
+asyncio.run(run_async_TCP_client())
