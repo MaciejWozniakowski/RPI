@@ -7,13 +7,13 @@ from pymodbus import (
 import time 
 import asyncio
 
-baudrate = 9600 #wybrany z palca
-port = 5020
+#baudrate = 9600 #wybrany z palca
+#port = 5020
 
         
-async def run_async_simple_client(port ):
+async def run_async_simple_client():
     client = ModbusClient.AsyncModbusSerialClient(
-        port,
+        port = "dev/tty",
         baudrate = 9600,
         bytesize = 8,
         parity = "N",
@@ -24,16 +24,15 @@ async def run_async_simple_client(port ):
     print("connect to server")
     await client.connect()
     #test if the client has been connnected 
-    assert client.connected
-    print("connection established, reading data")
+    assert client.connected 
 
 
     try:
-        rr = await client.read_holding_registers()
+        rr = await client.read_holding_registers(1)
+        print(rr)
+        time.sleep(1)
     except ModbusException as exc:
         print(f"Recieved exception {exc}")
         client.close()
         return
-
-
-
+asyncio.run(run_async_simple_client())
